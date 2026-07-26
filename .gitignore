@@ -1,0 +1,21 @@
+# Python生成的缓存
+__pycache__/
+*.py[cod]
+
+# 虚拟环境
+.venv/
+venv/
+
+# 编辑器配置
+.vscode/
+.idea/
+
+# 本地密码配置
+.env
+
+# 系统生成文件
+Thumbs.db
+.DS_Store
+
+# 项目前期练习
+practice/
