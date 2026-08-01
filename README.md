@@ -2,7 +2,7 @@
 
 ## 项目简介
 
-本项目基于一份覆盖2026年1月至6月的模拟零售销售数据，完成了从Excel原始数据清洗、MySQL数据存储，到Python数据分析和结果可视化的完整流程。分析内容包括总体经营情况、月度销售趋势、渠道表现和RFM顾客分层。最终输出清洗数据、异常数据、汇总表、分析报告和可视化图表。
+本项目基于一份覆盖2026年1月至6月的模拟零售销售数据，完成了从Excel原始数据清洗、MySQL数据存储，到Python数据分析、Matplotlib静态图表和Power BI交互式仪表板的完整流程。分析内容包括总体经营情况、月度销售趋势、渠道表现、商品表现和RFM顾客分层。最终输出清洗数据、异常数据、汇总表、分析报告、可视化图表及可交互的Power BI报告。
 
 ## 技术栈
 
@@ -11,13 +11,15 @@
 - 数据处理：pandas、openpyxl
 - 数据库连接：SQLAlchemy、PyMySQL
 - 数据查询：SQL
-- 数据可视化：matplotlib
+- 数据可视化：Matplotlib、Power BI
+- 商业智能：DAX、日期维度表、交互式筛选与页面导航
 
 ## 主要分析内容
 
 - 清洗原始销售数据，并记录异常数据及剔除原因
 - 分析月度销售额、利润和利润率的变化趋势
 - 对比线上与线下渠道的销售规模、顾客价值和利润率
+- 分析各商品与商品分类的销售额、利润和利润率
 - 使用RFM模型对顾客进行分层，并分析各分层的经营价值
 
 ## 数据清洗
@@ -52,6 +54,21 @@
 
 流失风险顾客共有41人，是人数最多的分层，其平均未购买天数达到82.88天。核心价值顾客虽然只有21人，但总销售额达到160048.10元，人均销售额7621.34元，均居各分层首位。重要唤回顾客只有5人，但人均销售额达到5783.41元，位居第二，具有较高的定向召回价值。
 
+## Power BI交互式仪表板
+
+- [查看仪表板PDF](retail_sales_dashboard.pdf)
+- [下载Power BI源文件](retail_sales_dashboard.pbix)
+
+仪表板包含5个页面：
+
+1. `经营总览`：展示总体销售额、成本、利润、利润率、月度趋势和分类表现
+2. `月度趋势分析`：展示上月销售额、环比变化、环比增长率和年度累计销售额
+3. `渠道分析`：对比线上、线下渠道及不同地区的经营表现
+4. `商品分析`：分析各商品的销售额、利润、利润率及成交数量
+5. `RFM顾客分层`：展示各顾客分层的人数、销售额、未购买天数和人均销售额
+
+Power BI模型使用独立日期表与销售明细表建立一对多关系，并通过DAX度量值实现环比、年度累计、动态标题和筛选上下文计算。季度切片器在经营总览与月度趋势页面之间同步；RFM页面使用Python生成的全周期汇总结果，因此不参与季度筛选。
+
 ## 项目结构
 
 ```text
@@ -59,6 +76,8 @@ demo1/
 ├── project_day02.py
 ├── project_analysis.py
 ├── retail_sales_project_dataset.xlsx
+├── retail_sales_dashboard.pbix
+├── retail_sales_dashboard.pdf
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
@@ -78,6 +97,8 @@ demo1/
 
 - `project_day02.py`：读取Excel原始数据，完成数据清洗、异常记录保存、商品信息合并和利润计算，并将结果导出为CSV文件及写入MySQL。
 - `project_analysis.py`：从MySQL读取清洗后的成交数据，完成月度、渠道和RFM顾客分层分析，并生成汇总表、图表和分析报告。
+- `retail_sales_dashboard.pbix`：Power BI交互式仪表板源文件，包含5个分析页面。
+- `retail_sales_dashboard.pdf`：Power BI仪表板的5页静态预览文件。
 - `output/`：保存3份清洗结果CSV、3份分析汇总CSV、3张可视化图表和1份经营分析报告。
 - `practice/`：保存项目开发前期的Python、pandas和MySQL练习。
 
@@ -155,6 +176,16 @@ python project_analysis.py
 - `monthly_summary.csv`：月度经营指标汇总
 - `channel_summary.csv`：渠道经营指标汇总
 - `rfm_segment_summary.csv`：RFM顾客分层指标汇总
+
+### 7. 查看Power BI仪表板
+
+使用Power BI Desktop打开：
+
+```text
+retail_sales_dashboard.pbix
+```
+
+仪表板的数据源为`output/clean_sales.csv`和`output/rfm_segment_summary.csv`。如项目目录发生变化，可在Power BI的“数据源设置”中更新文件路径。
 
 ## 项目局限
 
